@@ -1,0 +1,35 @@
+
+&pinctrl {
+	pio0_spi0_default: pio0_spi0_default {
+		group1 {
+			pinmux = <PIO0_P14>, <PIO0_P15>;
+		};
+	};
+};
+
+&pio0 {
+ 	status = "okay";
+
+	pio0_spi0: pio0_spi0 {
+		pinctrl-0 = <&pio0_spi0_default>;
+		pinctrl-names = "default";
+
+		compatible = "raspberrypi,pico-spi-pio";
+		status = "okay";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&clocks RPI_PICO_CLKID_CLK_SYS>;
+		cs-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+		clk-gpios = <&gpio0 14 GPIO_ACTIVE_HIGH>;
+		sio-gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
+		airoc_wifi: airoc-wifi@0 {
+			status = "okay";
+			reg = < 0 >;
+			compatible = "infineon,airoc-wifi";
+			wifi-reg-on-gpios = < &gpio0 16 GPIO_ACTIVE_HIGH >;
+			wifi-host-wake-gpios = < &gpio0 15 GPIO_ACTIVE_HIGH >;
+			spi-max-frequency = < 1000000 >;
+			spi-half-duplex;
+		};
+	};
+};
